@@ -6,6 +6,7 @@ if (xhr.status >= 200 && xhr.status < 300) {
     console.log(data);
 }
 });
+
 xhr.addEventListener('error' , ev => {
 console.log(xhr);
 });
