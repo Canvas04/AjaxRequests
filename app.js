@@ -1,3 +1,6 @@
+import { Api} from '/lib.js';
+
+const api = new Api('http://localhost:9999/posts');
 {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:9999/posts');
@@ -20,7 +23,7 @@
 
 {
     const xhr = new XMLHttpRequest();
-    xhr.open('POSt', 'http://localhost:9999/posts');
+    xhr.open('POST', 'http://localhost:9999/posts');
     xhr.setRequestHeader('Content-Type' , 'application/json')
     xhr.addEventListener('load', ev => {
         if (xhr.status >= 200 && xhr.status < 300) {
