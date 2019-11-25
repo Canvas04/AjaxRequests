@@ -2,22 +2,29 @@ export class Api {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
     }
-    getJSON(path) {
+    getJSON(path, onSuccess, onFail) {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `${this.baseUrl}${path}`);
         xhr.addEventListener('load', ev => {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const data = JSON.parse(xhr.responseText);
-                console.log(data);
+                if (onSuccess !== undefined) {
+                    onSuccess(data);
+                }
                 return;
             }
 
-            console.log(xhr.statusText);
+            if (onFail !== undefined) {
+                onFail(xhr.statusText)
+            }
+
 
         });
 
         xhr.addEventListener('error', ev => {
-            console.log('Unexpected error');
+            if (onFail !== undefined) {
+                onFail('Unexpected error');
+            }
         });
         xhr.send();
     }
