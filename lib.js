@@ -2,14 +2,27 @@ export class Api {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
     }
+
+
     getJSON(path, onSuccess, onFail) {
         this.makeRequest(path, 'GET', [], null, onSuccess, onFail);
     }
-    postJSON(path, data, onSuccess, onFail) {
 
-        xhr.makeRequest(path, 'POST', [
+
+    postJSON(path, data, onSuccess, onFail) {
+        if (data === null) {
+            this.makeRequest(path, 'POST', [], null, onSuccess, onFail);
+            return;
+        }
+
+        this.makeRequest(path, 'POST', [
             { name: 'Content-Type', value: 'application/json' }
         ], JSON.stringify(data), onSuccess, onFail);
+    }
+
+
+    deleteJSON(path, onSuccess, onFail) {
+        this.makeRequest(path, 'DELETE', [], null, onSuccess, onFail);
     }
 
     makeRequest(path, method, headers = [], body = null, onSuccess, onFail) {

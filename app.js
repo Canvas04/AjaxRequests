@@ -12,3 +12,19 @@ api.postJSON('/posts', { id: 0, content: 'Post' }, data => {
 }, error => {
     console.log(error);
 });
+
+//Лайки 
+
+api.postJSON('/posts/1/likes' , null , data =>  {
+    console.log(data);
+}, error => {
+    console.log(error);
+});
+
+// Дизлайки
+
+api.deleteJSON('/posts/1/likes' , null , data =>  {
+    console.log(data);
+}, error => {
+    console.log(error);
+});
