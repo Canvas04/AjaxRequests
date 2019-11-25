@@ -3,8 +3,22 @@ export class Api {
         this.baseUrl = baseUrl;
     }
     getJSON(path, onSuccess, onFail) {
+        this.makeRequest(path, 'GET', [], null, onSuccess, onFail);
+    }
+    postJSON(path, data, onSuccess, onFail) {
+
+        xhr.makeRequest(path, 'POST', [
+            { name: 'Content-Type', value: 'application/json' }
+        ], JSON.stringify(data), onSuccess, onFail);
+    }
+
+    makeRequest(path, method, headers = [], body = null, onSuccess, onFail) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.baseUrl}${path}`);
+        xhr.open(method, `${this.baseUrl}${path}`);
+        for (const header of headers) {
+            xhr.setRequestHeader(header.name, header.value);
+        }
+
         xhr.addEventListener('load', ev => {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const data = JSON.parse(xhr.responseText);
@@ -26,29 +40,6 @@ export class Api {
                 onFail('Unexpected error');
             }
         });
-        xhr.send();
-    }
-    postJSON() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${this.baseUrl}/posts`);
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.addEventListener('load', ev => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const data = JSON.parse(xhr.responseText);
-                console.log(data);
-                return;
-            }
-
-            console.log(xhr.statusText);
-
-        });
-
-        xhr.addEventListener('error', ev => {
-            console.log('Unexpected error');
-        });
-        xhr.send(JSON.stringify({
-            id: 0,
-            content: 'New Post',
-        }));
+        xhr.send(body);
     }
 }
